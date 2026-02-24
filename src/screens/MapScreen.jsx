@@ -35,8 +35,7 @@ export default function MapScreen({
   const isCheckpoint = (day) => CHECKPOINTS.includes(day)
   
   const canPlayDay = (day) => {
-    if (day === 1) return currentDay >= 0
-    return day <= currentDay || completedDays.includes(day - 1)
+    return true // All days unlocked as requested
   }
 
   return (
