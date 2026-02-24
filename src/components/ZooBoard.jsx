@@ -40,8 +40,12 @@ export default function ZooBoard({ words, onComplete }) {
     speechService.speakWord(word)
   }
 
+  if (!words || words.length === 0) {
+    return null
+  }
+
   const word = words[currentWord]
-  const animal = animals[word] || { emoji: '❓', name: word.toLowerCase() }
+  const animal = animals[word] || { emoji: '❓', name: word?.toLowerCase() || '' }
 
   return (
     <div className="flex flex-col items-center gap-6">
