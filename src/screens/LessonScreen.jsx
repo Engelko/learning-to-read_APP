@@ -232,27 +232,11 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
   function renderGamePhase() {
     console.log('Rendering game phase for:', dayData.game, dayData.type);
 
-    if (dayData.game === 'roar' || dayData.game === 'voice' || dayData.game === 'catch' || dayData.game === 'speed') {
-      return (
-        <SoundQuiz
-          letters={dayData.letters || []}
-          count={3}
-          onComplete={handleGameComplete}
-        />
-      )
-    }
+    // Game mappings based on curriculum.js
+    const gameType = dayData.game;
 
-    if (dayData.game === 'train' || dayData.game === 'body') {
-       return (
-        <SoundQuiz
-          letters={dayData.letters || []}
-          count={2}
-          onComplete={handleGameComplete}
-        />
-      )
-    }
-
-    if (dayData.game === 'find') {
+    // Special game: Feeding Game
+    if (gameType === 'find') {
       return (
         <FeedingGame
           letters={dayData.letters}
@@ -262,26 +246,63 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
         />
       )
     }
-    
-    if (dayData.letters && dayData.letters.length > 0) {
-      return (
-        <SoundQuiz
-          letters={dayData.letters}
-          count={Math.min(dayData.letters.length, 5)}
-          onComplete={handleGameComplete}
-        />
-      )
-    }
-    
-    if (dayData.syllables && dayData.game === 'rocket') {
+
+    // Special game: Rocket Launch (Syllables)
+    if (gameType === 'rocket' || gameType === 'satellite') {
       return (
         <RocketLaunch
-          syllables={dayData.syllables}
+          syllables={dayData.syllables || []}
+          onComplete={handleGameComplete}
+        />
+      )
+    }
+
+    // Special game: Syllable Builder (Syllables)
+    if (gameType === 'planets' || gameType === 'spacecat' || gameType === 'signal') {
+      return (
+        <SyllableBuilder
+          syllables={dayData.syllables || []}
+          words={dayData.words || []}
+          mode="build"
+          onComplete={handleGameComplete}
+        />
+      )
+    }
+
+    // Special game: Stress Marker (Words)
+    if (gameType === 'stress') {
+      return (
+        <StressMarker
+          words={dayData.words || []}
+          onComplete={handleGameComplete}
+        />
+      )
+    }
+
+    // Special game: Word Decoder/Builder
+    if (gameType === 'decode' || gameType === 'lego' || gameType === 'builder') {
+       return (
+         <SyllableBuilder
+           syllables={dayData.syllables || []}
+           words={dayData.words || []}
+           mode="build"
+           onComplete={handleGameComplete}
+         />
+       )
+    }
+
+    // Default Letter Games (SoundQuiz)
+    if (['roar', 'voice', 'catch', 'train', 'body', 'speed', 'exam'].includes(gameType) || dayData.letters) {
+      return (
+        <SoundQuiz
+          letters={dayData.letters || []}
+          count={dayData.letters?.length > 3 ? 5 : 3}
           onComplete={handleGameComplete}
         />
       )
     }
     
+    // Default Syllable Games
     if (dayData.syllables && dayData.syllables.length > 0) {
       return (
         <SyllableBuilder
@@ -292,15 +313,7 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
       )
     }
     
-    if (dayData.words && dayData.game === 'stress') {
-      return (
-        <StressMarker
-          words={dayData.words}
-          onComplete={handleGameComplete}
-        />
-      )
-    }
-    
+    // Default Word Games
     if (dayData.words && dayData.words.length > 0) {
       return (
         <WordReader
@@ -308,16 +321,6 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
           onComplete={handleGameComplete}
         />
       )
-    }
-
-    if (dayData.letters && dayData.letters.length > 0) {
-        return (
-          <SoundQuiz
-            letters={dayData.letters}
-            count={3}
-            onComplete={handleGameComplete}
-          />
-        )
     }
     
     return (
