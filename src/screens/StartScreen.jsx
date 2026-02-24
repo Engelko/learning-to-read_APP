@@ -68,6 +68,7 @@ export default function StartScreen({ onStart }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-400 via-pink-300 to-yellow-200
                     flex flex-col items-center justify-center p-6">
+      <div className="screen-content max-w-md items-center">
       <div className="text-center mb-8 animate-fadeIn">
         <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
           Учись Читать!
@@ -142,6 +143,7 @@ export default function StartScreen({ onStart }) {
         <span className="animate-bounce" style={{ animationDelay: '0s' }}>🦕</span>
         <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>🚀</span>
         <span className="animate-bounce" style={{ animationDelay: '0.4s' }}>🦁</span>
+      </div>
       </div>
     </div>
   )

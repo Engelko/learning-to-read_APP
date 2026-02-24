@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { speechService } from '../services/speech'
+import { LETTER_ANIMALS } from '../data/curriculum'
 
 export default function SoundQuiz({ 
   letters, 
@@ -18,6 +19,11 @@ export default function SoundQuiz({
   }, [])
 
   const generateQuestion = () => {
+    if (asked.length >= count) {
+      onComplete?.(correctCount, count)
+      return
+    }
+
     const available = letters.filter(l => !asked.includes(l))
     if (available.length === 0) {
       onComplete?.(correctCount, count)
@@ -104,21 +110,26 @@ export default function SoundQuiz({
             onClick={() => handleAnswer(letter)}
             disabled={result !== null}
             className={`
-              w-28 h-32 rounded-3xl text-6xl font-bold
+              w-28 h-32 rounded-3xl font-bold flex flex-col items-center justify-center
               transition-all duration-200
               ${result === 'correct' && letter === targetLetter
-                ? 'bg-green-400 text-white scale-110' 
+                ? 'bg-green-400 text-white scale-110 border-b-8 border-green-600'
                 : ''}
               ${result === 'wrong' && letter === targetLetter
-                ? 'bg-red-400 text-white' 
+                ? 'bg-red-400 text-white border-b-8 border-red-600'
                 : ''}
               ${!result 
-                ? 'bg-white hover:bg-gray-100 hover:scale-105 shadow-lg' 
+                ? 'bg-white hover:bg-gray-100 hover:scale-105 shadow-lg border-b-8 border-gray-200'
                 : ''}
               ${result && letter !== targetLetter ? 'opacity-50' : ''}
             `}
           >
-            {letter}
+            <div className="text-6xl">{letter}</div>
+            {LETTER_ANIMALS[letter] && (
+               <div className="text-2xl opacity-70 mt-1">
+                 {LETTER_ANIMALS[letter].emoji}
+               </div>
+            )}
           </button>
         ))}
       </div>

@@ -114,31 +114,39 @@ export default function WordReader({
         )}
       </div>
       
-      <div className="flex items-center gap-4 mt-4 text-8xl">
-        {getWordEmoji(word)}
+      <div className="flex items-center justify-center gap-4 mt-4 h-32 w-32">
+        {getWordVisual(word).image ? (
+          <img
+            src={getWordVisual(word).image}
+            alt={word}
+            className="max-h-full max-w-full object-contain animate-fadeIn"
+          />
+        ) : (
+          <div className="text-8xl">{getWordVisual(word).emoji}</div>
+        )}
       </div>
     </div>
   )
 }
 
-function getWordEmoji(word) {
-  const emojis = {
-    'МАМА': '👩',
-    'ПАПА': '👨',
-    'КОТ': '🐱',
-    'СОМ': '🐟',
-    'НОС': '👃',
-    'ДОМ': '🏠',
-    'РАК': '🦀',
-    'ЗУБ': '🦷',
-    'ВОЛК': '🐺',
-    'МОСТ': '🌉',
-    'КУСТ': '🌿',
-    'СЛОН': '🐘',
-    'ТУТ': '👆',
-    'ЛАМА': '🦙',
-    'ПАУК': '🕷️',
-    'МАЛИНА': '🫐'
+function getWordVisual(word) {
+  const visuals = {
+    'МАМА': { emoji: '👩', image: 'https://img.icons8.com/color/200/mother.png' },
+    'ПАПА': { emoji: '👨', image: 'https://img.icons8.com/color/200/father.png' },
+    'КОТ': { emoji: '🐱', image: 'https://img.icons8.com/color/200/cat.png' },
+    'СОМ': { emoji: '🐟', image: 'https://img.icons8.com/color/200/fish.png' },
+    'НОС': { emoji: '👃', image: 'https://img.icons8.com/color/200/nose.png' },
+    'ДОМ': { emoji: '🏠', image: 'https://img.icons8.com/color/200/home.png' },
+    'РАК': { emoji: '🦀', image: 'https://img.icons8.com/color/200/crayfish.png' },
+    'ЗУБ': { emoji: '🦷', image: 'https://img.icons8.com/color/200/tooth.png' },
+    'ВОЛК': { emoji: '🐺', image: 'https://img.icons8.com/color/200/wolf.png' },
+    'МОСТ': { emoji: '🌉', image: 'https://img.icons8.com/color/200/bridge.png' },
+    'КУСТ': { emoji: '🌿', image: 'https://img.icons8.com/color/200/shrub.png' },
+    'СЛОН': { emoji: '🐘', image: 'https://img.icons8.com/color/200/elephant.png' },
+    'ТУТ': { emoji: '👆', image: 'https://img.icons8.com/color/200/point-up.png' },
+    'ЛАМА': { emoji: '🦙', image: 'https://img.icons8.com/color/200/llama.png' },
+    'ПАУК': { emoji: '🕷️', image: 'https://img.icons8.com/color/200/spider.png' },
+    'МАЛИНА': { emoji: '🫐', image: 'https://img.icons8.com/color/200/raspberry.png' }
   }
-  return emojis[word] || '❓'
+  return visuals[word] || { emoji: '❓' }
 }
