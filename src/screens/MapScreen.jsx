@@ -40,8 +40,8 @@ export default function MapScreen({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-green-100 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-green-100 p-4 flex justify-center">
+      <div className="screen-content max-w-4xl">
         <header className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">
             Дорога приключений

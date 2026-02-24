@@ -144,6 +144,7 @@ export default function DiagnosticScreen({ progress, onComplete }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100
                     flex flex-col items-center justify-center p-6">
+      <div className="screen-content max-w-2xl items-center">
       <div className="text-center mb-6">
         <div className="text-xl text-gray-600 mb-2">
           Буква {currentIndex + 1} из {letters.length}
@@ -206,6 +207,7 @@ export default function DiagnosticScreen({ progress, onComplete }) {
       >
         🔊 Послушать ещё раз
       </button>
+      </div>
     </div>
   )
 }

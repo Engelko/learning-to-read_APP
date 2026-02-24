@@ -85,8 +85,16 @@ export default function LetterCard({
       </div>
       
       {showAnimal && (
-        <div className="text-3xl mt-2" aria-hidden="true">
-          {animal.emoji}
+        <div className="mt-2" aria-hidden="true">
+          {animal.image ? (
+            <img
+              src={animal.image}
+              alt={animal.animal}
+              className={`${size === 'large' ? 'w-24 h-24' : 'w-16 h-16'} object-contain animate-fadeIn`}
+            />
+          ) : (
+            <div className="text-3xl">{animal.emoji}</div>
+          )}
         </div>
       )}
       

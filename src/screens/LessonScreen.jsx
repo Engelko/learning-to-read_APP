@@ -36,15 +36,21 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
 
   const handleGameComplete = (result) => {
     setCorrectAnswers(prev => prev + 1)
-    setCurrentStep(prev => prev + 1)
-    
-    if (dayData?.words && currentStep >= 0) {
-      setPhase('reading')
-    } else if (dayData?.syllables && currentStep >= 1) {
-      setPhase('reading')
-    } else {
-      setPhase('creative')
-    }
+    setCurrentStep(prev => {
+      const nextStep = prev + 1
+
+      // Determine next phase based on available data
+      if (dayData?.words && dayData.words.length > 0) {
+        setPhase('reading')
+      } else if (dayData?.syllables && dayData.syllables.length > 0 && phase !== 'game') {
+        // If we have syllables and we haven't just come from a syllable game
+        setPhase('reading')
+      } else {
+        setPhase('creative')
+      }
+
+      return nextStep
+    })
   }
 
   const handleReadingComplete = () => {
@@ -193,8 +199,8 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-green-100 p-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-green-100 p-4 flex justify-center">
+      <div className="screen-content max-w-2xl">
         <header className="flex justify-between items-center mb-4">
           <button
             onClick={onBack}
@@ -254,7 +260,7 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
       )
     }
     
-    if (dayData.syllables) {
+    if (dayData.syllables && dayData.syllables.length > 0) {
       return (
         <SyllableBuilder
           syllables={dayData.syllables}

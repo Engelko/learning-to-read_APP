@@ -37,16 +37,16 @@ export default function RewardScreen({
     }
   }, [achievement])
 
-  const getRewardEmoji = () => {
+  const getRewardVisual = () => {
     switch (type) {
       case 'checkpoint':
-        return '⭐'
+        return { emoji: '⭐', image: 'https://img.icons8.com/color/200/star.png' }
       case 'stage':
-        return '🏆'
+        return { emoji: '🏆', image: 'https://img.icons8.com/color/200/trophy.png' }
       case 'final':
-        return '👑'
+        return { emoji: '👑', image: 'https://img.icons8.com/color/200/crown.png' }
       default:
-        return '🌟'
+        return { emoji: '🌟', image: 'https://img.icons8.com/color/200/shining-stars.png' }
     }
   }
 
@@ -63,16 +63,16 @@ export default function RewardScreen({
     }
   }
 
-  const getCharacterEmoji = () => {
+  const getCharacterVisual = () => {
     switch (character) {
       case 'dino':
-        return animPhase >= 1 ? '🦖' : '🦕'
+        return { emoji: '🦕', image: 'https://img.icons8.com/color/200/stegosaurus.png' }
       case 'rocket':
-        return animPhase >= 1 ? '🚀' : '🔧'
+        return { emoji: '🚀', image: 'https://img.icons8.com/color/200/rocket.png' }
       case 'animal':
-        return animPhase >= 1 ? '🦁' : '🐱'
+        return { emoji: '🦁', image: 'https://img.icons8.com/color/200/lion.png' }
       default:
-        return '⭐'
+        return { emoji: '⭐', image: null }
     }
   }
 
@@ -90,16 +90,24 @@ export default function RewardScreen({
         transition-transform duration-500
         ${visible ? 'scale-100' : 'scale-75'}
       `}>
-        <div className="text-8xl mb-4 animate-bounce">
-          {getRewardEmoji()}
+        <div className="flex justify-center mb-4 h-32">
+          {getRewardVisual().image ? (
+            <img src={getRewardVisual().image} alt="reward" className="h-full object-contain animate-bounce" />
+          ) : (
+            <div className="text-8xl animate-bounce">{getRewardVisual().emoji}</div>
+          )}
         </div>
         
         <div className={`
-          text-6xl mb-4
+          flex justify-center mb-4 h-24
           transition-all duration-500
           ${animPhase >= 1 ? 'animate-bounce' : ''}
         `}>
-          {getCharacterEmoji()}
+          {getCharacterVisual().image ? (
+            <img src={getCharacterVisual().image} alt="character" className="h-full object-contain" />
+          ) : (
+            <div className="text-6xl">{getCharacterVisual().emoji}</div>
+          )}
         </div>
         
         <h2 className="text-2xl font-bold text-gray-800 mb-2">
