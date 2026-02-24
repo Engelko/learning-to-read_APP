@@ -230,7 +230,29 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
   )
 
   function renderGamePhase() {
-    if (dayData.letters && dayData.game === 'find') {
+    console.log('Rendering game phase for:', dayData.game, dayData.type);
+
+    if (dayData.game === 'roar' || dayData.game === 'voice' || dayData.game === 'catch' || dayData.game === 'speed') {
+      return (
+        <SoundQuiz
+          letters={dayData.letters || []}
+          count={3}
+          onComplete={handleGameComplete}
+        />
+      )
+    }
+
+    if (dayData.game === 'train' || dayData.game === 'body') {
+       return (
+        <SoundQuiz
+          letters={dayData.letters || []}
+          count={2}
+          onComplete={handleGameComplete}
+        />
+      )
+    }
+
+    if (dayData.game === 'find') {
       return (
         <FeedingGame
           letters={dayData.letters}
@@ -279,13 +301,23 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
       )
     }
     
-    if (dayData.words) {
+    if (dayData.words && dayData.words.length > 0) {
       return (
         <WordReader
           word={dayData.words[0]}
           onComplete={handleGameComplete}
         />
       )
+    }
+
+    if (dayData.letters && dayData.letters.length > 0) {
+        return (
+          <SoundQuiz
+            letters={dayData.letters}
+            count={3}
+            onComplete={handleGameComplete}
+          />
+        )
     }
     
     return (
