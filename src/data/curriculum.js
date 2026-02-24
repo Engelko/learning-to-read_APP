@@ -309,6 +309,7 @@ export function getDayData(dayNumber) {
   const allDays = []
   
   Object.entries(CURRICULUM).forEach(([stageKey, stage]) => {
+    if (!stage.weeks) return;
     stage.weeks.forEach(week => {
       week.days.forEach(day => {
         allDays.push({
