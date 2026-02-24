@@ -1,0 +1,5 @@
+export { default as StartScreen } from './StartScreen'
+export { default as MapScreen } from './MapScreen'
+export { default as DiagnosticScreen } from './DiagnosticScreen'
+export { default as LessonScreen } from './LessonScreen'
+export { default as RewardScreen } from './RewardScreen'
