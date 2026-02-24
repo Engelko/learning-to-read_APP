@@ -13,6 +13,33 @@ import LegoBuilder from '../components/LegoBuilder'
 import SentenceReader from '../components/SentenceReader'
 import ZooBoard from '../components/ZooBoard'
 
+const GAME_INSTRUCTIONS = {
+  roar: 'Послушай звук и найди правильную букву',
+  voice: 'Послушай звук и найди правильную букву',
+  catch: 'Послушай звук и найди правильную букву',
+  find: 'Найди и покорми динозаврика нужными буквами',
+  train: 'Послушай звук и найди правильную букву',
+  body: 'Послушай звук и найди правильную букву',
+  speed: 'Послушай звук и найди правильную букву',
+  exam: 'Давай проверим все буквы, которые мы выучили!',
+  rocket: 'Читай слоги и запускай ракету в космос',
+  satellite: 'Поймай сигналы со спутника — читай слоги',
+  decode: 'Дешифруй послание — собери слово из слогов',
+  planets: 'Прыгай по планетам и собирай слова',
+  spacecat: 'Помоги космическому коту собрать слово',
+  signal: 'Найди сигнал и собери слово',
+  lama: 'Прочитай слово, чтобы помочь ламе',
+  catfish: 'Прочитай слово и узнай, что делает сом',
+  stress: 'Послушай слово и поставь правильное ударение',
+  catball: 'Прочитай слово и помоги котику',
+  raspberry: 'Прочитай слово и угости медведя малиной',
+  spider: 'Прочитай слово про паучка',
+  zoo: 'Мы в зоопарке! Прочитай слова на табличках',
+  lego: 'Собери слово из блоков лего',
+  builder: 'Собери слово в нашей мастерской',
+  sentences: 'Давай почитаем предложения'
+}
+
 /**
  * ПОЛНЫЙ ПЛАН ЗАНЯТИЙ:
  * | День  | game-тип  | Компонент      | Пропсы                            | Фаза reading |
@@ -51,18 +78,28 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
     if (phase === 'intro' && dayData) {
       speechService.speak(dayData.title)
     }
+
+    if (phase === 'creative' && dayData) {
+      const letterToDraw = dayData.newLetter ||
+                           (dayData.letters?.[0]) ||
+                           (dayData.syllables?.[0]?.[0]) ||
+                           (dayData.words?.[0]?.[0]) ||
+                           'А'
+      speechService.speak(`Нарисуй букву ${letterToDraw} пальцем!`)
+    }
   }, [phase, dayData])
 
   const startLesson = async () => {
     try {
-      await speechService.speak('Начинаем занятие!')
+      const instruction = GAME_INSTRUCTIONS[dayData?.game] || 'Начинаем занятие!'
+      await speechService.speak(instruction)
     } catch (e) {
       console.error('Speech error:', e)
     }
     setPhase('game')
   }
 
-  const handleGameComplete = (result) => {
+  const handleGameComplete = async (result) => {
     setCorrectAnswers(prev => prev + 1)
 
     // Determine next phase based on available data and game type
@@ -76,15 +113,24 @@ export default function LessonScreen({ dayNumber, progress, onComplete, onBack }
     const isReadingHeavy = readingHeavyGames.includes(gameType)
 
     if (!isReadingHeavy && (hasWords || hasSyllables || hasSentences)) {
+      try {
+        await speechService.speak('Отлично! А теперь давай почитаем.')
+      } catch (e) {}
       setPhase('reading')
     } else {
+      try {
+        await speechService.speak('Здорово! Теперь давай порисуем.')
+      } catch (e) {}
       setPhase('creative')
     }
 
     setCurrentStep(prev => prev + 1)
   }
 
-  const handleReadingComplete = () => {
+  const handleReadingComplete = async () => {
+    try {
+      await speechService.speak('Замечательно! Теперь давай немного порисуем.')
+    } catch (e) {}
     setPhase('creative')
   }
 
